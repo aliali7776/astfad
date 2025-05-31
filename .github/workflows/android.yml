@@ -14,7 +14,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
@@ -22,4 +22,14 @@ jobs:
         sudo apt install -y python3-pip build-essential git zip unzip openjdk-17-jdk
         pip install buildozer cython
 
+    - name: Initialize buildozer
+      run: buildozer init || true
+
     - name: Build APK
+      run: buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: profit-apk
+        path: bin/*.apk
